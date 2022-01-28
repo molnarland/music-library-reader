@@ -1,0 +1,27 @@
+{
+  "name": "music-library-reader",
+  "version": "1.0.0",
+  "description": " Read my music library and save to a json and mongo db ",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/molnarland/music-library-reader.git"
+  },
+  "author": "Roland Molnar <rrmolnar@gmail.com>",
+  "license": "MPL-2.0",
+  "bugs": {
+    "url": "https://github.com/molnarland/music-library-reader/issues"
+  },
+  "homepage": "https://github.com/molnarland/music-library-reader#readme",
+  "devDependencies": {
+    "prettier": "^2.5.1"
+  },
+  "dependencies": {
+    "dotenv": "^14.3.2",
+    "mongodb": "^4.3.1",
+    "music-metadata": "^7.11.7"
+  }
+}
