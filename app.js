@@ -92,6 +92,19 @@ async function getMusicsInJson() {
 
       musics[genre][year].push({ artist, title });
     }
+
+    for (const genre in musics) {
+      for (const year in musics[genre]) {
+        musics[genre][year].sort((a, b) => {
+          const first = `${a.artist} - ${a.title}`.toLowerCase();
+          const second = `${b.artist} - ${b.title}`.toLowerCase();
+
+          if (first < second) return -1;
+          if (first > second) return 1;
+          return 0;
+        });
+      }
+    }
   } catch (e) {
     console.error(e);
   } finally {
