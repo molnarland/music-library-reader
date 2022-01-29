@@ -4,7 +4,8 @@
   "description": " Read my music library and save to a json and mongo db ",
   "main": "app.js",
   "scripts": {
-    "start": "node app.js"
+    "write": "node musicLibraryReader/app.js",
+    "chatbot": "node chatbot/app.js"
   },
   "repository": {
     "type": "git",
@@ -17,11 +18,13 @@
   },
   "homepage": "https://github.com/molnarland/music-library-reader#readme",
   "devDependencies": {
+    "@types/tmi.js": "^1.8.1",
     "prettier": "^2.5.1"
   },
   "dependencies": {
     "dotenv": "^14.3.2",
     "mongodb": "^4.3.1",
-    "music-metadata": "^7.11.7"
+    "music-metadata": "^7.11.7",
+    "tmi.js": "^1.8.5"
   }
 }

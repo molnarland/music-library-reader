@@ -1,4 +1,5 @@
 .idea/
+music-library-reader.iml
 
 .env
 node_modules/

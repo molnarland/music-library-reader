@@ -2,9 +2,8 @@ require("dotenv").config();
 const { resolve } = require("path");
 const { readdir, open } = require("fs").promises;
 const mm = require("music-metadata");
-const { MongoClient } = require("mongodb");
+const { getMongo } = require("../helpers/getMongo");
 
-const MONGO_URL = process.env.MONGO_URL;
 const LIBRARY_PATH = process.env.LIBRARY_PATH;
 const LIBRARY_FILE_NAME = process.env.LIBRARY_FILE_NAME;
 
@@ -18,36 +17,28 @@ const LIBRARY_FILE_NAME = process.env.LIBRARY_FILE_NAME;
 })();
 
 async function writeToMongo(musics) {
-  let client = null;
+  const {client, collection} = await getMongo();
 
-  try {
-    client = new MongoClient(MONGO_URL);
-    await client.connect();
-    const db = client.db();
-    const collection = db.collection("musics");
+  const hasMusic = !!(await collection.countDocuments());
+  if (hasMusic) {
+    await collection.deleteMany({});
+  }
 
-    const hasMusic = !!(await collection.findOne());
-    if (hasMusic) {
-      await collection.deleteMany({});
-    }
-
-    for (const genre in musics) {
-      for (const year in musics[genre]) {
-        for (const { title, artist } of musics[genre][year]) {
-          await collection.insertOne({
-            genre,
-            title,
-            artist,
-            year: Number(year),
-          });
-        }
+  for (const genre in musics) {
+    for (const year in musics[genre]) {
+      for (const { title, artist } of musics[genre][year]) {
+        await collection.insertOne({
+          genre,
+          title,
+          artist,
+          track: `${artist} - ${title}`,
+          year: Number(year),
+        });
       }
     }
-  } catch (e) {
-    console.error(e);
-  } finally {
-    client?.close();
   }
+
+  client?.close();
 }
 
 /**
