@@ -17,17 +17,17 @@ const LIBRARY_FILE_NAME = process.env.LIBRARY_FILE_NAME;
 })();
 
 async function writeToMongo(musics) {
-  const {client, collection} = await getMongo();
+  const {client, collections} = await getMongo();
 
-  const hasMusic = !!(await collection.countDocuments());
+  const hasMusic = !!(await collections.musics.countDocuments());
   if (hasMusic) {
-    await collection.deleteMany({});
+    await collections.musics.deleteMany({});
   }
 
   for (const genre in musics) {
     for (const year in musics[genre]) {
       for (const { title, artist } of musics[genre][year]) {
-        await collection.insertOne({
+        await collections.musics.insertOne({
           genre,
           title,
           artist,
@@ -65,6 +65,8 @@ async function getMusicsInJson() {
 
   try {
     for await (const file of getFiles(LIBRARY_PATH)) {
+      if (!isAudio(file)) continue;
+
       const {
         common: { artist, year, genre, title },
       } = await mm.parseFile(file);
@@ -121,4 +123,15 @@ async function* getFiles(dir) {
   } catch (e) {
     console.error(e);
   }
+}
+
+/**
+ * @param {string} fileName
+ * @return {boolean}
+ */
+function isAudio(fileName) {
+  const splitted = fileName.split('.');
+  const extension = splitted[splitted.length - 1];
+
+  return ['wav', 'flac'].includes(extension);
 }
