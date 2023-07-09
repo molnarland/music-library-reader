@@ -133,5 +133,5 @@ function isAudio(fileName) {
   const splitted = fileName.split('.');
   const extension = splitted[splitted.length - 1];
 
-  return ['wav', 'flac'].includes(extension);
+  return ['wav', 'flac', 'aiff'].includes(extension);
 }
