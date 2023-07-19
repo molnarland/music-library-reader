@@ -5,7 +5,8 @@
   "main": "app.js",
   "scripts": {
     "write": "node musicLibraryReader/app.js",
-    "chatbot": "node chatbot/app.js"
+    "chatbot": "node chatbot/app.js",
+    "copyTracks": "node copyTracks/app.js"
   },
   "repository": {
     "type": "git",
